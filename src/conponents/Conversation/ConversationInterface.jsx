@@ -20,8 +20,8 @@ import { FaStar } from "react-icons/fa";
 
 
 
-const ConversationInterface = ({ chat , addMessage }) => {
-  const [messages, setMessages] = useState([]);
+const ConversationInterface = ({ chat , addMessage, messages, setMessages }) => {
+  
   const [userInput, setUserInput] = useState("");
   const [likeStatus, setLikeStatus] = useState(null);
   const [rating, setRating] = useState(0);
@@ -33,9 +33,9 @@ const ConversationInterface = ({ chat , addMessage }) => {
   const [selectedMessageIndex, setSelectedMessageIndex] = useState(null);
  
 
-  useEffect(() => {
-    setMessages([]);
-  }, [chat]);
+  // useEffect(() => {
+  //   setMessages([]);
+  // }, [chat]);
 
   const handleGenerateResponse = () => {
 
@@ -55,8 +55,8 @@ const ConversationInterface = ({ chat , addMessage }) => {
         aiText: foundResponse.response,
         type: "AI",
       };
-      setMessages([...messages, newMessage]);
-     ;
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+
 
     } else {
       const newMessage = {
@@ -64,7 +64,8 @@ const ConversationInterface = ({ chat , addMessage }) => {
         aiText: "Sorry, I don't have a response for that.",
         type: "AI",
       };
-      setMessages([...messages, newMessage]);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+
       addMessage(newMessage)
  
     }

@@ -2,28 +2,33 @@
 import { useState } from 'react';
 import './App.css';
 import ConversationInterface from './conponents/Conversation/ConversationInterface';
-import PastChat from './conponents/PastChats/PastChat';
+import PastChat from './conponents/SideBar/SideBar';
+import ChatHistory from './conponents/ChatHistory/ChatHistory';
 
 function App() {
   const [chats, setChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
+  
+  const [openHistory , setOpenHistory] = useState(false)
+  const [messages, setMessages] = useState([]);
 
-  // Function to handle selecting a chat
-  const handleSelectChat = (chat) => {
-    setSelectedChat(chat);
-  };
-
-  // Function to handle creating a new chat
+ 
   const handleCreateNewChat = () => {
-    setSelectedChat(  []); // Create a new chat with empty history
+    setMessages(  []); 
+    setOpenHistory(false)
   };
+
+
+  const viewHistory =() => {
+    setOpenHistory(true)
+
+  }
 
   const addMessageToChat = (message) => {
     setChats((prevChats) => {
-      // Find the index of the message in the chats array
+   
       const messageIndex = prevChats.findIndex((msg) => msg.id === message.id);
       if (messageIndex !== -1) {
-        // If the message exists in the array, update it
+     
         const updatedChats = [...prevChats];
         updatedChats[messageIndex] = {
           ...updatedChats[messageIndex],
@@ -32,7 +37,7 @@ function App() {
         };
         return updatedChats;
       } else {
-        // If the message doesn't exist, add it to the array
+    
         return [...prevChats, message];
       }
     });
@@ -45,9 +50,9 @@ console.log(chats)
     <div className="App">
     <div
      className='container flex gap-4 justify-between'>
-      <PastChat chats={chats} onSelectChat={handleSelectChat} onCreateNewChat={handleCreateNewChat}/>
-      <ConversationInterface chat={selectedChat} addMessage={addMessageToChat}/>
-
+      <PastChat   handleCreateNewChat ={handleCreateNewChat} viewHistory={viewHistory}/>
+      
+{openHistory?  <ChatHistory chats={chats}/> : <ConversationInterface setMessages={setMessages} messages={messages} addMessage={addMessageToChat}/>}
      </div>
     </div>
   );
