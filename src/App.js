@@ -7,10 +7,18 @@ import ChatHistory from './conponents/ChatHistory/ChatHistory';
 
 function App() {
   const [chats, setChats] = useState([]);
-  
+  const [mode, setMode] = useState('light');
+
+
   const [openHistory , setOpenHistory] = useState(false)
   const [messages, setMessages] = useState([]);
 
+
+
+
+  const toggleMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
  
   const handleCreateNewChat = () => {
     setMessages(  []); 
@@ -47,12 +55,12 @@ function App() {
 console.log(chats)
 
   return (
-    <div className="App">
+    <div className={`App ${mode}`}>
     <div
      className='container flex gap-4 justify-between'>
-      <SideBar  handleCreateNewChat ={handleCreateNewChat} viewHistory={viewHistory}/>
+      <SideBar  handleCreateNewChat ={handleCreateNewChat} viewHistory={viewHistory} mode={mode}/>
       
-{openHistory?  <ChatHistory chats={chats}/> : <ConversationInterface setMessages={setMessages} messages={messages} addMessage={addMessageToChat}/>}
+{openHistory?  <ChatHistory chats={chats} mode={mode}/> : <ConversationInterface setMessages={setMessages} messages={messages} addMessage={addMessageToChat} mode={mode}/>}
      </div>
     </div>
   );

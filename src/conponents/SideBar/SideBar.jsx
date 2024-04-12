@@ -3,14 +3,17 @@ import Button from '@mui/material/Button';
 import "./SideBar.css";
 import { RiChatNewFill } from "react-icons/ri";
 import { BiSolidConversation } from "react-icons/bi";
+import IconButton from '@mui/material/IconButton';
+import { CiLight } from "react-icons/ci";
+import { MdDarkMode } from "react-icons/md";
 
 
 
-const PastChats = ({  viewHistory, handleCreateNewChat}) => {
+const PastChats = ({  viewHistory, handleCreateNewChat, mode,toggleMode}) => {
 
  
   return (
-    <div className='wrapper'>
+    <div className={`wrapper ${mode === 'dark' ? 'dark-mode' : 'light-mode'}`}>
       <div>
         <button variant="contained" onClick={handleCreateNewChat} className='newchat-btn'>
           <RiChatNewFill/>
@@ -25,7 +28,9 @@ const PastChats = ({  viewHistory, handleCreateNewChat}) => {
       </button>
      </div>
 
-
+     <IconButton onClick={toggleMode} className="toggle-mode-btn">
+        {mode === 'dark' ? <CiLight /> : <MdDarkMode />}
+      </IconButton>
     </div>
   );
 };
