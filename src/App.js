@@ -8,29 +8,45 @@ function App() {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
 
+  // Function to handle selecting a chat
   const handleSelectChat = (chat) => {
     setSelectedChat(chat);
   };
 
-const handleCreateNewChat = () => {
-  // Check if any chat with non-empty history exists
-  const hasNonEmptyChat = chats.some(chat => chat.history.length > 0);
+  // Function to handle creating a new chat
+  const handleCreateNewChat = () => {
+    setSelectedChat(  []); // Create a new chat with empty history
+  };
 
-  // If there's no chat with non-empty history, add a new blank chat
-  if (!hasNonEmptyChat) {
-    const newChat = { history: [] }; // Initialize with empty history
-    setChats([...chats, newChat]);
-    setSelectedChat(newChat); // Set the newly created chat as selectedChat
-  }
-};
+  const addMessageToChat = (message) => {
+    setChats((prevChats) => {
+      // Find the index of the message in the chats array
+      const messageIndex = prevChats.findIndex((msg) => msg.id === message.id);
+      if (messageIndex !== -1) {
+        // If the message exists in the array, update it
+        const updatedChats = [...prevChats];
+        updatedChats[messageIndex] = {
+          ...updatedChats[messageIndex],
+          rating: message.rating,
+          subjectiveFeedback: message.subjectiveFeedback,
+        };
+        return updatedChats;
+      } else {
+        // If the message doesn't exist, add it to the array
+        return [...prevChats, message];
+      }
+    });
+  };
+  
 
+console.log(chats)
 
   return (
     <div className="App">
     <div
      className='container flex gap-4 justify-between'>
       <PastChat chats={chats} onSelectChat={handleSelectChat} onCreateNewChat={handleCreateNewChat}/>
-      <ConversationInterface chat={selectedChat}/>
+      <ConversationInterface chat={selectedChat} addMessage={addMessageToChat}/>
 
      </div>
     </div>

@@ -9,8 +9,17 @@ const PastChats = ({ chats, onSelectChat, onCreateNewChat, selectedChat }) => {
   };
 
   const handleCreateNewChat = () => {
-    // Clear the selected chat to reset the conversation interface
-    onSelectChat(null);
+    // Check if there are any chats with non-empty history
+    const hasNonEmptyChat = chats.some(chat => chat.history.length > 0);
+
+    // Check if a blank chat is already opened
+    const hasBlankChat = chats.some(chat => chat.history.length === 0);
+
+    // If there's no chat with non-empty history and no blank chat opened, create a new blank chat
+    if (!hasNonEmptyChat && !hasBlankChat) {
+      const newChat = { history: [] };
+      onCreateNewChat(newChat);
+    }
   };
 
   return (
@@ -22,6 +31,13 @@ const PastChats = ({ chats, onSelectChat, onCreateNewChat, selectedChat }) => {
         </button>
       </div>
      
+     <div className='pastBtn-container'>
+      <button className='past-btn'>
+        Past conversations
+      </button>
+     </div>
+
+
     </div>
   );
 };
