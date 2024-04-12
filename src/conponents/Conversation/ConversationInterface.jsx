@@ -34,7 +34,7 @@ const ConversationInterface = ({ chat , addMessage, messages, setMessages }) => 
  
 
   // useEffect(() => {
-  //   setMessages([]);
+  //   setMessages();
   // }, [chat]);
 
   const handleGenerateResponse = () => {
@@ -60,11 +60,12 @@ const ConversationInterface = ({ chat , addMessage, messages, setMessages }) => 
 
     } else {
       const newMessage = {
+        id: Math.random().toString(36).substring(7), 
         userText: userInput,
         aiText: "Sorry, I don't have a response for that.",
         type: "AI",
       };
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
       addMessage(newMessage)
  
@@ -86,6 +87,7 @@ const ConversationInterface = ({ chat , addMessage, messages, setMessages }) => 
     }
 
     const feedbackData = {
+      id: Math.random().toString(36).substring(7), 
       userText: userInput,
       aiText: foundResponse ? foundResponse.response : "No response",
       rating,
@@ -261,6 +263,7 @@ const ConversationInterface = ({ chat , addMessage, messages, setMessages }) => 
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
         />
+        <div className="button-container"> 
         <button className="button" onClick={handleGenerateResponse}>
           <div className="dots_border"></div>
           <svg
@@ -313,6 +316,7 @@ const ConversationInterface = ({ chat , addMessage, messages, setMessages }) => 
           </div>
           <span>Save</span>
         </button>
+        </div>
       </div>
     </div>
   );

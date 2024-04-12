@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import './App.css';
 import ConversationInterface from './conponents/Conversation/ConversationInterface';
-import PastChat from './conponents/SideBar/SideBar';
+import SideBar from './conponents/SideBar/SideBar';
 import ChatHistory from './conponents/ChatHistory/ChatHistory';
 
 function App() {
@@ -25,23 +25,23 @@ function App() {
 
   const addMessageToChat = (message) => {
     setChats((prevChats) => {
-   
-      const messageIndex = prevChats.findIndex((msg) => msg.id === message.id);
-      if (messageIndex !== -1) {
-     
+      const existingMessageIndex = prevChats.findIndex((msg) => msg.id === message.id);
+      if (existingMessageIndex !== -1) {
         const updatedChats = [...prevChats];
-        updatedChats[messageIndex] = {
-          ...updatedChats[messageIndex],
+        updatedChats[existingMessageIndex] = {
+          ...updatedChats[existingMessageIndex],
           rating: message.rating,
           subjectiveFeedback: message.subjectiveFeedback,
         };
         return updatedChats;
       } else {
-    
+        // If the message doesn't exist in the chats array, add it
         return [...prevChats, message];
       }
     });
   };
+  
+  
   
 
 console.log(chats)
@@ -50,7 +50,7 @@ console.log(chats)
     <div className="App">
     <div
      className='container flex gap-4 justify-between'>
-      <PastChat   handleCreateNewChat ={handleCreateNewChat} viewHistory={viewHistory}/>
+      <SideBar  handleCreateNewChat ={handleCreateNewChat} viewHistory={viewHistory}/>
       
 {openHistory?  <ChatHistory chats={chats}/> : <ConversationInterface setMessages={setMessages} messages={messages} addMessage={addMessageToChat}/>}
      </div>
